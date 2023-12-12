@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 
+numIp = 12345
 class LamportClock:
     def __init__(self):
         self.value = 0
@@ -86,7 +87,7 @@ def send_message(sock, clock, alias, peers, my_private_key, public_keys):
             sock.sendto(data, (peer_ip, peer_port))
 
 def main():
-    my_port = int(input("Digite sua porta: "))
+    
     alias = input("Digite seu apelido no chat: ")
 
     my_private_key, my_public_key = generate_keys()
@@ -99,15 +100,14 @@ def main():
     for _ in range(num):
         member_alias = input("Digite o apelido do membro: ")
         ip = input("Digite o IP do membro: ")
-        port = int(input("Digite a porta do membro: "))
-        peers[member_alias] = (ip, port)
+        peers[member_alias] = (ip, numIp)
 
         public_key_pem = input(f"Digite a chave pública do membro {member_alias}: ")
         public_key = serialization.load_pem_public_key(public_key_pem.encode())
         public_keys[member_alias] = public_key
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('', my_port))
+    sock.bind(('', numIp))
 
     clock = LamportClock()
 

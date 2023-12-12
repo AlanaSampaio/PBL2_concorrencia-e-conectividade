@@ -74,6 +74,7 @@ def main():
     clock = LamportClock()
 
     key = generate_key()
+    print("Key ", key)
 
     listener_thread = threading.Thread(target=listen_for_messages, args=(sock, clock, alias, key), daemon=True)
     listener_thread.start()

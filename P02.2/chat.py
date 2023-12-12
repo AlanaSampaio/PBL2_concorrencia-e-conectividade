@@ -3,6 +3,8 @@ import threading
 import json
 import pickle
 
+numIp = 12345
+
 class LamportClock:
     def __init__(self):
         self.value = 0
@@ -38,18 +40,17 @@ def send_message(sock, clock, alias, peers):
             sock.sendto(data, peer)
 
 def main():
-    my_port = int(input("Digite sua porta: "))
+    
     alias = input("Digite seu apelido no chat: ")
 
     peers = []
     num = int(input("Digite o número de membros que terá seu chat em grupo (sem incluir você): "))
     for _ in range(num):
         ip = input("Digite o IP do membro: ")
-        port = int(input("Digite a porta do membro: "))
-        peers.append((ip, port))
+        peers.append((ip, numIp))
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('', my_port))
+    sock.bind(('', numIp))
 
     clock = LamportClock()
 
