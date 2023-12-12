@@ -4,6 +4,7 @@ import json
 import pickle
 from cryptography.fernet import Fernet
 
+numIp = 12345
 class LamportClock:
     def __init__(self):
         self.value = 0
@@ -34,10 +35,15 @@ def listen_for_messages(sock, clock, alias, key):
     while True:
         try:
             data, addr = sock.recvfrom(1024)
+            print("oiiiii")
             encrypted_message, received_time = pickle.loads(data)
+            print("oi", encrypt_message)
             decrypted_message = decrypt_message(key, encrypted_message)
+            print("oi", decrypted_message)
             message = json.loads(decrypted_message)
+            print("oi2")
             clock.update(received_time)
+            print("oi")
             print(f"{message['alias']} disse: {message['text']} at Lamport time {clock.value}")
         except Exception as e:
             print(f"Erro ao receber mensagem: {e}")
@@ -53,18 +59,17 @@ def send_message(sock, clock, alias, peers, key):
             sock.sendto(data, peer)
 
 def main():
-    my_port = int(input("Digite sua porta: "))
+
     alias = input("Digite seu apelido no chat: ")
 
     peers = []
     num = int(input("Digite o número de membros que terá seu chat em grupo (sem incluir você): "))
     for _ in range(num):
         ip = input("Digite o IP do membro: ")
-        port = int(input("Digite a porta do membro: "))
-        peers.append((ip, port))
+        peers.append((ip, numIp))
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('', my_port))
+    sock.bind(('', numIp))
 
     clock = LamportClock()
 

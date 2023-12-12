@@ -1,0 +1,9 @@
+Comandos docker:
+docker build -t chat3-app .
+docker run -it chat3-app
+
+docker build -t chat2-app .
+docker run -it chat2-app
+
+docker build -t chat-app .
+docker run -it chat-app
