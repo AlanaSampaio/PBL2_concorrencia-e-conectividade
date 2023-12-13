@@ -1,9 +1,27 @@
+IP máquinas D:
+	larsid02: 192.168.0.1
+	larsid03: 240.3.0.1
+	larsid05: 172.17.0.1
+
+IP máquinas:
+	larsid02: 172.16.103.2
+	larsid03: 172.16.103.3
+	larsid05: 172.16.103.5
+
 Comandos docker:
+
+docker network create chat3
 docker build -t chat3-app .
-docker run -it chat3-app
+docker run -i -t --network=chat3 chat3-app
 
-docker build -t chat2-app .
-docker run -it chat2-app
+||
 
-docker build -t chat-app .
-docker run -it chat-app
+docker network create chat3
+docker build -t chat3-app .
+docker run -i -t --network=chat3 -p 12345:12345 chat3-app
+
+||
+
+docker network create chat3
+docker build -t chat3-app .
+docker run -it --network=chat3 meu-chat-image bash
